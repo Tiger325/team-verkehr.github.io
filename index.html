@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team Verkehr</title>
+  <style>
+    :root {
+      --bg: #0a0a0d;
+      --bg-soft: #111116;
+      --card: #15151c;
+      --text: #f4f4f6;
+      --muted: #b9bcc7;
+      --accent: #ff8a1f;
+      --accent-soft: rgba(255, 138, 31, 0.18);
+      --border: rgba(255, 138, 31, 0.35);
+      --shadow: 0 0 24px rgba(255, 138, 31, 0.22);
+      --max: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(255,138,31,0.18), transparent 35%),
+        linear-gradient(180deg, #09090c 0%, #0d0d12 40%, #08080b 100%);
+      color: var(--text);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      background: rgba(10, 10, 13, 0.78);
+      border-bottom: 1px solid rgba(255, 138, 31, 0.15);
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      gap: 20px;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #fff;
+      text-transform: uppercase;
+    }
+
+    .brand span {
+      color: var(--accent);
+      text-shadow: 0 0 10px rgba(255,138,31,0.5);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover { color: #fff; }
+
+    .hero {
+      padding: 72px 0 40px;
+    }
+
+    .hero-box {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: center;
+      background: linear-gradient(180deg, rgba(255,138,31,0.08), rgba(255,138,31,0.02));
+      border: 1px solid rgba(255,138,31,0.2);
+      border-radius: 28px;
+      padding: 36px;
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #ffd1a2;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: clamp(2.1rem, 4.8vw, 4.4rem);
+      line-height: 1.02;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      max-width: 62ch;
+      margin: 0 0 24px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 20px;
+      border-radius: 14px;
+      font-weight: 700;
+      transition: 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: linear-gradient(180deg, #ff9d3b, #ff7d0b);
+      color: #111;
+      box-shadow: 0 0 24px rgba(255,138,31,0.34);
+    }
+
+    .btn-primary:hover { transform: translateY(-1px); }
+
+    .btn-secondary {
+      border-color: var(--border);
+      background: rgba(255,255,255,0.02);
+      color: #fff;
+    }
+
+    .hero-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,138,31,0.18);
+      border-radius: 22px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      object-fit: cover;
+      border: 1px solid rgba(255,138,31,0.2);
+    }
+
+    .section {
+      padding: 34px 0 18px;
+    }
+
+    .section-title {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 3vw, 2.7rem);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .section-subtitle {
+      margin: 0 0 26px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 72ch;
+    }
+
+    .points {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .point {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border: 1px solid rgba(255,138,31,0.14);
+      border-radius: 20px;
+      padding: 20px;
+    }
+
+    .point h3 {
+      margin: 0 0 10px;
+      color: #fff;
+      font-size: 1.05rem;
+    }
+
+    .point p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.97rem;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .member {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,138,31,0.16);
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 0 14px rgba(255,138,31,0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .member:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 22px rgba(255,138,31,0.16);
+      border-color: rgba(255,138,31,0.32);
+    }
+
+    .member img {
+      width: 100%;
+      aspect-ratio: 4 / 5.6;
+      object-fit: cover;
+      display: block;
+      background: #0d0d12;
+    }
+
+    .member-body {
+      padding: 16px;
+    }
+
+    .member-name {
+      margin: 0;
+      font-size: 1.08rem;
+      line-height: 1.35;
+    }
+
+    .member-role {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .cta {
+      padding: 56px 0 80px;
+    }
+
+    .cta-box {
+      border-radius: 26px;
+      padding: 34px;
+      border: 1px solid rgba(255,138,31,0.22);
+      background: linear-gradient(180deg, rgba(255,138,31,0.12), rgba(255,138,31,0.04));
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .cta-box p {
+      color: var(--muted);
+      max-width: 60ch;
+      margin: 0 auto 20px;
+      line-height: 1.7;
+    }
+
+    footer {
+      padding: 22px 0 40px;
+      color: #8f93a1;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    @media (max-width: 1100px) {
+      .hero-box,
+      .points,
+      .team-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .hero-box > div:last-child {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero {
+        padding-top: 40px;
+      }
+
+      .hero-box,
+      .points,
+      .team-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-box,
+      .cta-box {
+        padding: 22px;
+      }
+
+      .hero-box > div:last-child {
+        grid-column: auto;
+      }
+    }
+  
+    .brand img { filter: drop-shadow(0 0 10px rgba(255,138,31,0.22)); }
+    .member, .point, .hero-card, .cta-box { position: relative; overflow: hidden; }
+    .member::before, .point::before, .hero-card::before, .cta-box::before {
+      content: "";
+      position: absolute;
+      inset: -120% auto auto -40%;
+      width: 50%;
+      height: 260%;
+      transform: rotate(18deg);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+      transition: transform 0.8s ease;
+      pointer-events: none;
+    }
+    .member:hover::before, .point:hover::before, .hero-card:hover::before, .cta-box:hover::before {
+      transform: translateX(260%) rotate(18deg);
+    }
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .btn, .member, .point { transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; }
+    .member img { transition: transform 0.35s ease; }
+    .member:hover img { transform: scale(1.03); }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <div class="brand"><img src="images/logo-main.png" alt="Betriebsrat Team Verkehr Logo" style="height:44px; width:auto; display:block;" /></div>
+      <div class="nav-links">
+        <a href="#ziele">Dafür stehen wir</a>
+        <a href="#team">Unser Team</a>
+        <a href="#wahl">Wahl</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero reveal">
+    <div class="container hero-box">
+      <div>
+        <div class="eyebrow">Betriebsratswahl</div>
+        <h1>Für euch.<br>Für den Betrieb.<br>Für die Zukunft.</h1>
+        <p>
+          Wir stehen für den <strong>Fahrdienst</strong>, die <strong>Werkstatt</strong> und die <strong>Verwaltung</strong>.
+          Wir kennen den Alltag, die Belastung und die Themen, die oft liegen bleiben. Genau deshalb treten wir an:
+          mit offenem Ohr, klarer Haltung und dem Anspruch, Lösungen für alle Bereiche im Betrieb fair und nachvollziehbar zu vertreten.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#team">Unser Team ansehen</a>
+          <a class="btn btn-secondary" href="#ziele">Mehr erfahren</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <img src="images/logo-neon.png" alt="Betriebsrat Team Verkehr Neon-Logo" />
+      </div>
+    </div>
+  </header>
+
+  <section class="section reveal" id="ziele">
+    <div class="container">
+      <h2 class="section-title">Dafür stehen wir</h2>
+      <p class="section-subtitle">
+        Wir wollen zuhören, anpacken und uns für gerechte Lösungen einsetzen. Nicht nur reden, sondern Dinge aufgreifen,
+        nachhalten und im Sinne der Kolleginnen und Kollegen vertreten.
+      </p>
+
+      <div class="points">
+        <article class="point">
+          <h3>Faire Dienstpläne</h3>
+          <p>Wir setzen uns für bessere Planbarkeit, mehr Verlässlichkeit und einen fairen Blick auf die tatsächliche Belastung im Alltag ein.</p>
+        </article>
+        <article class="point">
+          <h3>Respekt im Arbeitsalltag</h3>
+          <p>Respekt im Umgang ist für uns keine Nebensache. Gute Arbeit braucht Wertschätzung, Klarheit und vernünftige Kommunikation.</p>
+        </article>
+        <article class="point">
+          <h3>Mitbestimmung mit Wirkung</h3>
+          <p>Wir wollen die Anliegen aus Fahrdienst, Werkstatt und Verwaltung ernst nehmen, vertreten und konsequent weiterverfolgen.</p>
+        </article>
+        <article class="point">
+          <h3>Transparente Entscheidungen</h3>
+          <p>Entscheidungen müssen nachvollziehbar sein. Je mehr Stimmen wir bekommen, desto stärker können wir uns einbringen und etwas bewegen.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="team">
+    <div class="container">
+      <h2 class="section-title">Unser Team</h2>
+      <p class="section-subtitle">
+        Unser Team kommt aus unterschiedlichen Bereichen und steht gemeinsam für eine starke, gerechte und ansprechbare Vertretung im Betrieb.
+      </p>
+
+      <div class="team-grid">
+        <article class="member"><img src="images/meik-brindoepke.jpg" alt="Meik Brindöpke" /><div class="member-body"><h3 class="member-name">Meik Brindöpke</h3><p class="member-role">Kandidat Team Verkehr</p></div></article>
+        <article class="member"><img src="images/simeon-papadopoulos.jpg" alt="Simeon Papadopoulos" /><div class="member-body"><h3 class="member-name">Simeon Papadopoulos</h3><p class="member-role">Kandidat Team Verkehr</p></div></article>
+        <article class="member"><img src="images/georgios-kotsogiannidis.jpg" alt="Georgios Kotsogiannidis" /><div class="member-body"><h3 class="member-name">Georgios Kotsogiannidis</h3><p class="member-role">Kandidat Team Verkehr</p></div></article>
+        <article class="member"><img src="images/tom-mellinghaus.jpg" alt="Tom Mellinghaus" /><div class="member-body"><h3 class="member-name">Tom Mellinghaus</h3><p class="member-role">Kandidat Team Verkehr</p></div></article>
+        <article class="member"><img src="images/sven-freutel.jpg" alt="Sven Freutel" /><div class="member-body"><h3 class="member-name">Sven Freutel</h3><p class="member-role">Kandidat Team Verkehr</p></div></article>
+        <article class="member"><img src="images/anja-mellinghaus.jpg" alt="Anja Mellinghaus" /><div class="member-body"><h3 class="member-name">Anja Mellinghaus</h3><p class="member-role">Kandidatin Team Verkehr</p></div></article>
+        <article class="member"><img src="images/maurice-niemann.jpg" alt="Maurice Niemann" /><div class="member-body"><h3 class="member-name">Maurice Niemann</h3><p class="member-role">Kandidat Team Verkehr</p></div></article>
+        <article class="member"><img src="images/antonios-panagis.jpg" alt="Antonios Panagis" /><div class="member-body"><h3 class="member-name">Antonios Panagis</h3><p class="member-role">Kandidat Team Verkehr</p></div></article>
+        <article class="member"><img src="images/sebastian-hedtstueck.jpg" alt="Sebastian Hedtstück" /><div class="member-body"><h3 class="member-name">Sebastian Hedtstück</h3><p class="member-role">Kandidat Team Verkehr</p></div></article>
+        <article class="member"><img src="images/jenny-frenkel.jpg" alt="Jenny Frenkel" /><div class="member-body"><h3 class="member-name">Jenny Frenkel</h3><p class="member-role">Kandidatin Team Verkehr</p></div></article>
+        <article class="member"><img src="images/armin-schumacher.jpg" alt="Armin Schumacher" /><div class="member-body"><h3 class="member-name">Armin Schumacher</h3><p class="member-role">Kandidat Team Verkehr</p></div></article>
+        <article class="member"><img src="images/rabie-hdhili.jpg" alt="Rabie Hdhili" /><div class="member-body"><h3 class="member-name">Rabie Hdhili</h3><p class="member-role">Kandidat Team Verkehr</p></div></article>
+        <article class="member"><img src="images/eugenia-tertsinidou.jpg" alt="Eugenia Tertsinidou" /><div class="member-body"><h3 class="member-name">Eugenia Tertsinidou</h3><p class="member-role">Kandidatin Team Verkehr</p></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta reveal" id="wahl">
+    <div class="container">
+      <div class="cta-box">
+        <h2 class="section-title">Gemeinsam stark für den Betrieb</h2>
+        <p>
+          Wir stehen für Einsatz, Ehrlichkeit und ein offenes Ohr für die Kolleginnen und Kollegen.
+          Je mehr Stimmen Team Verkehr bekommt, desto stärker können wir auftreten, uns einbringen und für faire Lösungen kämpfen.
+        </p>
+        <a class="btn btn-primary" href="#team">Jetzt Team ansehen</a>
+        <p style="margin-top:18px; color:#ffd1a2; font-weight:700;">Gemeinsam stärker. Gemeinsam fair.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Betriebsrat Team Verkehr · Betriebsratswahl
+  </footer>
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+  </script>
+</body>
+</html>
