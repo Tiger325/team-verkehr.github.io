@@ -476,6 +476,11 @@
     }, { threshold: 0.12 });
 
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    setTimeout(() => {
+  document.querySelectorAll('.reveal').forEach((el) => {
+    el.classList.add('visible');
+  });
+}, 800);
   </script>
   <div class="credit">
   Created by Georgios Kotsogiannidis
