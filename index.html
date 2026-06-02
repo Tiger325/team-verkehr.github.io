@@ -4,23 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Team Verkehr</title>
-  <style>
-.credit {
-  position: fixed;
-  bottom: 10px;
-  right: 15px;
-  font-size: 12px;
-  color: rgba(255, 140, 0, 0.7);
-  font-family: Arial, sans-serif;
-  letter-spacing: 1px;
-  z-index: 999;
-  transition: 0.3s;
-}
 
-.credit:hover {
-  color: #ff8c00;
-  text-shadow: 0 0 8px #ff8c00;
-}
+  <style>
     :root {
       --bg: #0a0a0d;
       --bg-soft: #111116;
@@ -36,6 +21,7 @@
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
@@ -50,6 +36,23 @@
     .container {
       width: min(var(--max), calc(100% - 32px));
       margin: 0 auto;
+    }
+
+    .credit {
+      position: fixed;
+      bottom: 10px;
+      right: 15px;
+      font-size: 12px;
+      color: rgba(255, 140, 0, 0.7);
+      font-family: Arial, sans-serif;
+      letter-spacing: 1px;
+      z-index: 999;
+      transition: 0.3s;
+    }
+
+    .credit:hover {
+      color: #ff8c00;
+      text-shadow: 0 0 8px #ff8c00;
     }
 
     .nav {
@@ -69,16 +72,11 @@
       gap: 20px;
     }
 
-    .brand {
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      color: #fff;
-      text-transform: uppercase;
-    }
-
-    .brand span {
-      color: var(--accent);
-      text-shadow: 0 0 10px rgba(255,138,31,0.5);
+    .brand img {
+      height: 44px;
+      width: auto;
+      display: block;
+      filter: drop-shadow(0 0 10px rgba(255,138,31,0.22));
     }
 
     .nav-links {
@@ -90,6 +88,11 @@
     }
 
     .nav-links a:hover { color: #fff; }
+
+    .nav-links .highlight {
+      color: #ffb36a;
+      font-weight: 700;
+    }
 
     .hero {
       padding: 72px 0 40px;
@@ -230,14 +233,14 @@
 
     .team-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 18px;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
     }
 
     .member {
       background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
       border: 1px solid rgba(255,138,31,0.16);
-      border-radius: 22px;
+      border-radius: 18px;
       overflow: hidden;
       box-shadow: 0 0 14px rgba(255,138,31,0.08);
       transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
@@ -251,27 +254,26 @@
 
     .member img {
       width: 100%;
-      aspect-ratio: 1 / 1;
-      max-height: 220px;
-      object-fit: cover;
+      height: auto;
+      object-fit: contain;
       display: block;
       background: #0d0d12;
     }
 
     .member-body {
-      padding: 16px;
+      padding: 12px;
     }
 
     .member-name {
       margin: 0;
-      font-size: 1.08rem;
-      line-height: 1.35;
+      font-size: 0.92rem;
+      line-height: 1.3;
     }
 
     .member-role {
-      margin: 8px 0 0;
+      margin: 6px 0 0;
       color: var(--muted);
-      font-size: 0.92rem;
+      font-size: 0.78rem;
     }
 
     .cta {
@@ -301,11 +303,54 @@
       text-align: center;
     }
 
+    .member, .point, .hero-card, .cta-box {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .member::before, .point::before, .hero-card::before, .cta-box::before {
+      content: "";
+      position: absolute;
+      inset: -120% auto auto -40%;
+      width: 50%;
+      height: 260%;
+      transform: rotate(18deg);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+      transition: transform 0.8s ease;
+      pointer-events: none;
+    }
+
+    .member:hover::before, .point:hover::before, .hero-card:hover::before, .cta-box:hover::before {
+      transform: translateX(260%) rotate(18deg);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .member img {
+      transition: transform 0.35s ease;
+    }
+
+    .member:hover img {
+      transform: scale(1.02);
+    }
+
     @media (max-width: 1100px) {
       .hero-box,
-      .points,
-      .team-grid {
+      .points {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .team-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
 
       .hero-box > div:last-child {
@@ -324,9 +369,12 @@
       }
 
       .hero-box,
-      .points,
-      .team-grid {
+      .points {
         grid-template-columns: 1fr;
+      }
+
+      .team-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .hero-box,
@@ -337,37 +385,26 @@
       .hero-box > div:last-child {
         grid-column: auto;
       }
+
+      .credit {
+        position: static;
+        text-align: center;
+        padding-bottom: 16px;
+      }
     }
-  
-    .brand img { filter: drop-shadow(0 0 10px rgba(255,138,31,0.22)); }
-    .member, .point, .hero-card, .cta-box { position: relative; overflow: hidden; }
-    .member::before, .point::before, .hero-card::before, .cta-box::before {
-      content: "";
-      position: absolute;
-      inset: -120% auto auto -40%;
-      width: 50%;
-      height: 260%;
-      transform: rotate(18deg);
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
-      transition: transform 0.8s ease;
-      pointer-events: none;
-    }
-    .member:hover::before, .point:hover::before, .hero-card:hover::before, .cta-box:hover::before {
-      transform: translateX(260%) rotate(18deg);
-    }
-    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .btn, .member, .point { transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; }
-    .member img { transition: transform 0.35s ease; }
-    .member:hover img { transform: scale(1.03); }
   </style>
 </head>
+
 <body>
+
   <nav class="nav">
     <div class="container nav-inner">
-      <div class="brand"><img src="images/logo-main.png" alt="Betriebsrat Team Verkehr Logo" style="height:44px; width:auto; display:block;" /></div>
+      <div class="brand">
+        <img src="images/logo-main.png" alt="Betriebsrat Team Verkehr Logo" />
+      </div>
+
       <div class="nav-links">
-        <a href="#vorhaben">Vorhaben</a>
+        <a class="highlight" href="vorhaben.html">Was wir durchsetzen wollen</a>
         <a href="#ziele">Dafür stehen wir</a>
         <a href="#team">Unser Team</a>
         <a href="#wahl">Wahl</a>
@@ -379,15 +416,18 @@
     <div class="container hero-box">
       <div>
         <div class="eyebrow">Betriebsratswahl</div>
+
         <h1>Für euch.<br>Für den Betrieb.<br>Für die Zukunft.</h1>
+
         <p>
           Wir stehen für den <strong>Fahrdienst</strong>, die <strong>Werkstatt</strong> und die <strong>Verwaltung</strong>.
           Wir kennen den Alltag, die Belastung und die Themen, die oft liegen bleiben. Genau deshalb treten wir an:
           mit offenem Ohr, klarer Haltung und dem Anspruch, Lösungen für alle Bereiche im Betrieb fair und nachvollziehbar zu vertreten.
         </p>
+
         <div class="hero-actions">
           <a class="btn btn-primary" href="#team">Unser Team ansehen</a>
-          <a class="btn btn-secondary" href="#ziele">Mehr erfahren</a>
+          <a class="btn btn-secondary" href="vorhaben.html">Was wir durchsetzen wollen</a>
         </div>
       </div>
 
@@ -396,49 +436,11 @@
       </div>
     </div>
   </header>
-   <section class="section reveal" id="vorhaben">
-  <div class="container">
 
-    <h2 class="section-title">Was wir vorhaben</h2>
-
-    <p class="section-subtitle">
-      Hier zeigen wir unsere Ideen, Ziele und Themen,
-      die wir gemeinsam im Betrieb verbessern möchten.
-    </p>
-
-    <div class="points">
-
-      <article class="point">
-        <h3>Bessere Kommunikation</h3>
-        <p>
-          Mehr Austausch mit den Kolleginnen und Kollegen
-          und schnelleres Reagieren auf Probleme.
-        </p>
-      </article>
-
-      <article class="point">
-        <h3>Mehr Unterstützung</h3>
-        <p>
-          Unterstützung im Arbeitsalltag und klare Ansprechpartner
-          für wichtige Themen.
-        </p>
-      </article>
-
-      <article class="point">
-        <h3>Faire Lösungen</h3>
-        <p>
-          Entscheidungen sollen nachvollziehbar,
-          gerecht und transparent sein.
-        </p>
-      </article>
-
-    </div>
-
-  </div>
-</section>
   <section class="section reveal" id="ziele">
     <div class="container">
       <h2 class="section-title">Dafür stehen wir</h2>
+
       <p class="section-subtitle">
         Wir wollen zuhören, anpacken und uns für gerechte Lösungen einsetzen. Nicht nur reden, sondern Dinge aufgreifen,
         nachhalten und im Sinne der Kolleginnen und Kollegen vertreten.
@@ -449,14 +451,17 @@
           <h3>Faire Dienstpläne</h3>
           <p>Wir setzen uns für bessere Planbarkeit, mehr Verlässlichkeit und einen fairen Blick auf die tatsächliche Belastung im Alltag ein.</p>
         </article>
+
         <article class="point">
           <h3>Respekt im Arbeitsalltag</h3>
           <p>Respekt im Umgang ist für uns keine Nebensache. Gute Arbeit braucht Wertschätzung, Klarheit und vernünftige Kommunikation.</p>
         </article>
+
         <article class="point">
           <h3>Mitbestimmung mit Wirkung</h3>
           <p>Wir wollen die Anliegen aus Fahrdienst, Werkstatt und Verwaltung ernst nehmen, vertreten und konsequent weiterverfolgen.</p>
         </article>
+
         <article class="point">
           <h3>Transparente Entscheidungen</h3>
           <p>Entscheidungen müssen nachvollziehbar sein. Je mehr Stimmen wir bekommen, desto stärker können wir uns einbringen und etwas bewegen.</p>
@@ -468,6 +473,7 @@
   <section class="section reveal" id="team">
     <div class="container">
       <h2 class="section-title">Unser Team</h2>
+
       <p class="section-subtitle">
         Unser Team kommt aus unterschiedlichen Bereichen und steht gemeinsam für eine starke, gerechte und ansprechbare Vertretung im Betrieb.
       </p>
@@ -494,12 +500,17 @@
     <div class="container">
       <div class="cta-box">
         <h2 class="section-title">Gemeinsam stark für den Betrieb</h2>
+
         <p>
           Wir stehen für Einsatz, Ehrlichkeit und ein offenes Ohr für die Kolleginnen und Kollegen.
           Je mehr Stimmen Team Verkehr bekommt, desto stärker können wir auftreten, uns einbringen und für faire Lösungen kämpfen.
         </p>
+
         <a class="btn btn-primary" href="#team">Jetzt Team ansehen</a>
-        <p style="margin-top:18px; color:#ffd1a2; font-weight:700;">Gemeinsam stärker. Gemeinsam fair.</p>
+
+        <p style="margin-top:18px; color:#ffd1a2; font-weight:700;">
+          Gemeinsam stärker. Gemeinsam fair.
+        </p>
       </div>
     </div>
   </section>
@@ -507,6 +518,11 @@
   <footer>
     Betriebsrat Team Verkehr · Betriebsratswahl
   </footer>
+
+  <div class="credit">
+    Created by Georgios Kotsogiannidis
+  </div>
+
   <script>
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -517,14 +533,13 @@
     }, { threshold: 0.12 });
 
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
     setTimeout(() => {
-  document.querySelectorAll('.reveal').forEach((el) => {
-    el.classList.add('visible');
-  });
-}, 800);
+      document.querySelectorAll('.reveal').forEach((el) => {
+        el.classList.add('visible');
+      });
+    }, 800);
   </script>
-  <div class="credit">
-  Created by Georgios Kotsogiannidis
-</div>
+
 </body>
 </html>
