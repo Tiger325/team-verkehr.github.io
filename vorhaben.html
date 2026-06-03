@@ -223,6 +223,50 @@
         grid-template-columns: 1fr;
       }
     }
+    .zoom-image{
+  width:100%;
+  border-radius:18px;
+  margin-bottom:18px;
+  border:1px solid rgba(255,138,31,0.25);
+  box-shadow:0 0 18px rgba(255,138,31,0.18);
+  cursor:pointer;
+  transition:0.25s ease;
+}
+
+.zoom-image:hover{
+  transform:scale(1.02);
+}
+
+.image-popup{
+  display:none;
+  position:fixed;
+  z-index:9999;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.92);
+  justify-content:center;
+  align-items:center;
+  padding:30px;
+}
+
+.image-popup img{
+  max-width:95%;
+  max-height:95%;
+  border-radius:18px;
+  box-shadow:0 0 35px rgba(255,138,31,0.4);
+}
+
+.close-popup{
+  position:absolute;
+  top:25px;
+  right:35px;
+  color:white;
+  font-size:42px;
+  cursor:pointer;
+  font-weight:bold;
+}
   </style>
 </head>
 
@@ -337,6 +381,26 @@
   <footer>
     Betriebsrat Team Verkehr · Was wir durchsetzen wollen
   </footer>
+<div class="image-popup" id="imagePopup">
+  <span class="close-popup" onclick="closeImage()">&times;</span>
+  <img id="popupImage">
+</div>
 
+<script>
+function openImage(src){
+  document.getElementById("imagePopup").style.display = "flex";
+  document.getElementById("popupImage").src = src;
+}
+
+function closeImage(){
+  document.getElementById("imagePopup").style.display = "none";
+}
+
+document.getElementById("imagePopup").addEventListener("click", function(e){
+  if(e.target.id === "imagePopup"){
+    closeImage();
+  }
+});
+</script>
 </body>
 </html>
